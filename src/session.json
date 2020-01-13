@@ -1,0 +1,278 @@
+
+Success Purchase
+
+    POST /api/purchase HTTP/1.1
+    Content-Type: application/json
+    User-Agent: PostmanRuntime/7.18.0
+    // Accept: */*
+    Cache-Control: no-cache
+    Postman-Token: 459c4018-57b8-47d7-9b0e-b42561134678
+    Host: beta.soluspay.net
+    Accept-Encoding: gzip, deflate
+    Content-Length: 249
+    Connection: keep-alive
+
+    {
+    "tranDateTime": "191015100710",
+    "terminalId": "18000377",
+    "clientId": "ACTS",
+    "systemTraceAuditNumber": 120,
+    "tranAmount": 1,
+    "PAN": "9222081700189643651",
+    "PIN": "e0e92c1ab205ddbe",
+    "expDate": "2203",
+    "tranCurrencyCode":"SDG"
+    }
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.0 (Ubuntu)
+    Date: Wed, 16 Oct 2019 07:54:45 GMT
+    Content-Type: application/json; charset=utf-8
+    Content-Length: 359
+    Connection: keep-alive
+    Access-Control-Allow-Origin: *
+
+    {"ebs_response":
+        {"terminalId":"18000377",
+         "systemTraceAuditNumber":120,
+         "clientId":"ACTS","PAN":"3651",
+         "tranAmount":1,"tranCurrencyCode":"SDG",
+         "EBSServiceName":"",
+         "responseMessage":"Approval",
+         "responseStatus":"Successful",
+         "responseCode":0,
+         "referenceNumber":"000679630188",
+         "approvalCode":"418299",
+         "tranDateTime":"191015100710",
+         "tranFee":1,
+         "additionalAmount":0}
+    }
+    200
+    5473 ms
+
+Success WorkingKey
+    POST /api/workingKey HTTP/1.1
+    Content-Type: application/json
+    User-Agent: PostmanRuntime/7.18.0
+    // Accept: */*
+    Cache-Control: no-cache
+    Postman-Token: f93e9315-d7b3-46b9-a157-2b19483e2a09
+    Host: 197.251.5.77
+    Accept-Encoding: gzip, deflate
+    Content-Length: 198
+    Connection: keep-alive
+
+    {
+    "tranDateTime": "191011153010",
+    "terminalId": "18000377",
+    "clientId": "ACTS",
+    "systemTraceAuditNumber": 34,
+    "PAN": "9222081700189643651",
+    "PIN": "",
+    "expDate": "2203"
+    }
+
+    HTTP/1.1 200 OK
+    Server: nginx/1.14.0 (Ubuntu)
+    Date: Wed, 16 Oct 2019 08:20:23 GMT
+    Content-Type: application/json; charset=utf-8
+    Content-Length: 247
+    Connection: keep-alive
+    Access-Control-Allow-Origin: *
+
+    {"ebs_response":{"terminalId":"18000377","systemTraceAuditNumber":34,"clientId":"ACTS","EBSServiceName":"","workingKey":"f12a64bb1c98faa4","responseMessage":"Approval","responseStatus":"Successful","responseCode":0,"tranDateTime":"191011153010"}}
+    200
+    1545 ms
+
+// Errors From ACTS:
+    // Error Missing Parameter/s
+    // Invalid Format for Parameter/s
+
+        Failed Purchase:
+            // Missing Parameters
+            POST /api/purchase HTTP/1.1
+            Content-Type: application/json
+            User-Agent: PostmanRuntime/7.18.0
+            // Accept: */*
+            Cache-Control: no-cache
+            Postman-Token: 836dbb4c-73d5-49b2-b9dc-ad9b0bf2d6b1
+            Host: beta.soluspay.net
+            Accept-Encoding: gzip, deflate
+            Content-Length: 246
+            Connection: keep-alive
+
+            {
+            "tranDateTime": "191015100710",
+            "terminalId": "18000377",
+            "clientId": "ACTS",
+            "systemTraceAuditNumber": 181,
+            "traAmount": 1,
+            "PN": "9222081700189643651",
+            "PIN": "e0e92c1ab205ddbe",
+            "expate": "2203",
+            "tranCurrencyCode":"SDG"
+            }
+
+            HTTP/1.1 400 Bad Request
+            Server: nginx/1.14.0 (Ubuntu)
+            Date: Wed, 16 Oct 2019 15:03:27 GMT
+            Content-Type: application/json; charset=utf-8
+            Content-Length: 201
+            Connection: keep-alive
+            Access-Control-Allow-Origin: *
+
+            {"message":"Request fields validation error","code":400,"status":"BadRequest","details":[{"PAN":"this field is required"},{"expDate":"this field is required"},{"tranAmount":"this field is required"}]}
+            400
+            1862 ms
+
+        Failed Purchase:
+            // Invalid Format for Parameters  
+            POST /api/purchase HTTP/1.1
+            Content-Type: application/json
+            User-Agent: PostmanRuntime/7.18.0
+            // Accept: */*
+            Cache-Control: no-cache
+            Postman-Token: 16d6c778-8a62-44df-8bb2-f909f155059d
+            Host: beta.soluspay.net
+            Accept-Encoding: gzip, deflate
+            Content-Length: 248
+            Connection: keep-alive
+
+            {
+            "tranDateTime": "191015100710",
+            "terminalId": "1800037",
+            "clientId": "ACTS",
+            "systemTraceAuditNumber": 181,
+            "tranAmount": 1,
+            "PAN": "9222081700189643651",
+            "PIN": "e0e92c1ab205ddbe",
+            "expDate": "2203",
+            "tranCurrencyCode":"SDG"
+            }
+
+            HTTP/1.1 400 Bad Request
+            Server: nginx/1.14.0 (Ubuntu)
+            Date: Wed, 16 Oct 2019 15:06:56 GMT
+            Content-Type: application/json; charset=utf-8
+            Content-Length: 145
+            Connection: keep-alive
+            Access-Control-Allow-Origin: *
+
+            {"message":"Request fields validation error","code":400,"status":"BadRequest","details":[{"terminalId":"this field must be 8 characters long"}]}
+            400
+            1986 ms          
+
+// Errors From EBS:
+    // Invalid Parameter/s Value/s
+
+        Failed Purchase: 
+            // Invalid ClientId, TerminalId
+            // If ClientId is not valid, EBS doesn't evaluate the rest of the fields
+            POST /api/purchase HTTP/1.1
+            Content-Type: application/json
+            User-Agent: PostmanRuntime/7.18.0
+            // Accept: */*
+            Cache-Control: no-cache
+            Postman-Token: b0db4caa-8278-4fda-a63d-0322db8ecf2b
+            Host: beta.soluspay.net
+            Accept-Encoding: gzip, deflate
+            Content-Length: 249
+            Connection: keep-alive
+
+            {
+            "tranDateTime": "191015100710",
+            "terminalId": "18070377",
+            "clientId": "ADTS",
+            "systemTraceAuditNumber": 180,
+            "tranAmount": 1,
+            "PAN": "9222081700189643651",
+            "PIN": "e7e92c1ab205ddbe",
+            "expDate": "2203",
+            "tranCurrencyCode":"SDG"
+            }
+
+            HTTP/1.1 502 Bad Gateway
+            Server: nginx/1.14.0 (Ubuntu)
+            Date: Wed, 16 Oct 2019 08:35:34 GMT
+            Content-Type: application/json; charset=utf-8
+            Content-Length: 356
+            Connection: keep-alive
+            Access-Control-Allow-Origin: *
+
+            {"message":"EBSError","code":600,"status":"EBSError","details":{"terminalId":"18070377","systemTraceAuditNumber":180,"clientId":"ADTS","PAN":"3651","tranAmount":1,"tranCurrencyCode":"SDG","EBSServiceName":"","responseMessage":"Invalid client Id","responseStatus":"Failed","responseCode":600,"tranDateTime":"191015100710","tranFee":0,"additionalAmount":0}}    
+            502
+            3359 ms
+
+        Failed Purchase:
+            // Invalid Terminal Id
+            POST /api/purchase HTTP/1.1
+            Content-Type: application/json
+            User-Agent: PostmanRuntime/7.18.0
+            // Accept: */*
+            Cache-Control: no-cache
+            Postman-Token: b51babc9-ad10-4cd8-ad2d-80b97e956983
+            Host: beta.soluspay.net
+            Accept-Encoding: gzip, deflate
+            Content-Length: 249
+            Connection: keep-alive
+            
+            {
+            "tranDateTime": "191015100710",
+            "terminalId": "18070377",
+            "clientId": "ACTS",
+            "systemTraceAuditNumber": 180,
+            "tranAmount": 1,
+            "PAN": "9222081700189643651",
+            "PIN": "e7e92c1ab205ddbe",
+            "expDate": "2203",
+            "tranCurrencyCode":"SDG"
+            }
+            
+            HTTP/1.1 500 Internal Server Error
+            Server: nginx/1.14.0 (Ubuntu)
+            Date: Wed, 16 Oct 2019 08:40:26 GMT
+            Content-Type: application/json; charset=utf-8
+            Content-Length: 101
+            Connection: keep-alive
+            Access-Control-Allow-Origin: *
+            
+            {"message":"EBSError","code":0,"status":"EBSError","details":{"EBSServiceName":"","responseCode":0}}
+            500
+            1803 ms
+
+        Failed Purchase:
+            // Invalid Working Key
+            POST /api/purchase HTTP/1.1
+            Content-Type: application/json
+            User-Agent: PostmanRuntime/7.18.0
+            // Accept: */*
+            Cache-Control: no-cache
+            Postman-Token: 306c5c65-7ef4-4cbf-9a04-99ffe1edb9ac
+            Host: beta.soluspay.net
+            Accept-Encoding: gzip, deflate
+            Content-Length: 249
+            Connection: keep-alive
+
+            {
+            "tranDateTime": "191015100710",
+            "terminalId": "18000377",
+            "clientId": "ACTS",
+            "systemTraceAuditNumber": 181,
+            "tranAmount": 1,
+            "PAN": "9222081700189643651",
+            "PIN": "e0e92c1ab205ddbe",
+            "expDate": "2203",
+            "tranCurrencyCode":"SDG"
+            }
+
+            HTTP/1.1 502 Bad Gateway
+            Server: nginx/1.14.0 (Ubuntu)
+            Date: Wed, 16 Oct 2019 14:47:41 GMT
+            Content-Type: application/json; charset=utf-8
+            Content-Length: 351
+            Connection: keep-alive
+            Access-Control-Allow-Origin: *
+            
+            {"message":"EBSError","code":196,"status":"EBSError","details":{"terminalId":"18000377","systemTraceAuditNumber":181,"clientId":"ACTS","PAN":"3651","tranAmount":1,"tranCurrencyCode":"SDG","EBSServiceName":"","responseMessage":"System error","responseStatus":"Failed","responseCode":196,"tranDateTime":"191015100710","tranFee":0,"additionalAmount":0}}
+            502
+            2876 ms        
