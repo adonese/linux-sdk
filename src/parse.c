@@ -1,11 +1,3 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <stdio.h>
 #include "cJSON.h"
 
@@ -28,7 +20,7 @@ int main()
     const char *response = "HTTP/1.1 200 OK\nServer: nginx/1.14.0 (Ubuntu)\nDate: Wed, 16 Oct 2019 08:20:23 GMT\nContent-Type: application/json; charset=utf-8\nContent-Length: 247\nConnection: keep-alive\nAccess-Control-Allow-Origin: *{}";
     char *status_code = NULL;
     
-    
+    // why only http/1.1? We might change that?
     status_code = strstr(response, "HTTP/1.1 ");
     if(status_code == NULL)
         goto end;

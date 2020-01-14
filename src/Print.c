@@ -181,7 +181,7 @@ void prnShieldPanCardNum(u8 flag, char *prtCard, const char *cardNum)
 		cardlen = strlen(cardNum);
 		if(cardlen > 10)
 		{
-			if(flag == 1)	// 
+			if(flag == 1)
 				memset(prtCard+6, '*', cardlen-4-6);
 			else
 				memset(prtCard, '*', cardlen-4);

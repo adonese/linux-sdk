@@ -162,8 +162,8 @@ Success WorkingKey
             400
             1986 ms          
 
-// Errors From EBS:
-    // Invalid Parameter/s Value/s
+            // Errors From EBS:
+            // Invalid Parameter/s Value/s
 
         Failed Purchase: 
             // Invalid ClientId, TerminalId

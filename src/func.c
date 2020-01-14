@@ -87,18 +87,18 @@ int EnterPIN(u8 flag)
 		ret = PPReadPinPadSn_Api(temp);
 		if(ret == 0)
         	ret = PPGetPwd_Api(gCtrlParam.PinKeyIndes, 4, 8, PosCom.stTrans.MainAcc, PosCom.sPIN, DesFlag);
-#ifdef LST_DISPLAY
-		ScrCls_Api();
-		{
-			u8 aa[32];
-			memset(aa, 0, sizeof(aa));
-			ScrDisp_Api(LINE1, 0, "pp offline pin", FDISP|LDISP);
-			BcdToAsc_Api(aa, PosCom.sPIN, 16);
-			ScrDisp_Api(LINE2, 0, aa, FDISP|LDISP);
-			ScrDisp_Api(LINE3, 0, PosCom.stTrans.MainAcc, FDISP|LDISP);
-			WaitAnyKey_Api(60);
-		}
-#endif
+		#ifdef LST_DISPLAY
+				ScrCls_Api();
+				{
+					u8 aa[32];
+					memset(aa, 0, sizeof(aa));
+					ScrDisp_Api(LINE1, 0, "pp offline pin", FDISP|LDISP);
+					BcdToAsc_Api(aa, PosCom.sPIN, 16);
+					ScrDisp_Api(LINE2, 0, aa, FDISP|LDISP);
+					ScrDisp_Api(LINE3, 0, PosCom.stTrans.MainAcc, FDISP|LDISP);
+					WaitAnyKey_Api(60);
+				}
+		#endif
 	}
 	else
 	{
@@ -246,13 +246,13 @@ int WaitEvent(void)
 	TimerId = TimerSet_Api();
 	while(1)
 	{
-#if ((defined V71_MACHINE) || (defined V36H_MACHINE) || (defined V80B_MACHINE))
-		if(TimerCheck_Api(TimerId , 30*1000) == 1)
-		{
-			SysPowerStand_Api();
-			return 0xfe;
-		}
-#endif 
+		#if ((defined V71_MACHINE) || (defined V36H_MACHINE) || (defined V80B_MACHINE))
+				if(TimerCheck_Api(TimerId , 30*1000) == 1)
+				{
+					SysPowerStand_Api();
+					return 0xfe;
+				}
+		#endif 
 		BatChargeTest();
 		GetSysTime_Api(Temp);					 
 		if( memcmp(TimeTemp, Temp, 7) != 0 )
@@ -1092,16 +1092,16 @@ int ShowMenuItem(char *Title, const char *menu[], u8 ucLines, u8 ucStartKey, u8 
 		switch(nkey)
 		{
 		case UP:
-#if ( defined(V70B_MACHINE) || defined(V80B_MACHINE) )
-		case F2:
-#endif
+			#if ( defined(V70B_MACHINE) || defined(V80B_MACHINE) )
+					case F2:
+			#endif
 			if(cur_screen)
 				cur_screen--;
 			break;
 		case DOWN:
-#if ( defined(V70B_MACHINE) || defined(V80B_MACHINE) )
-		case F3:
-#endif
+			#if ( defined(V70B_MACHINE) || defined(V80B_MACHINE) )
+					case F3:
+			#endif
 			if ((t < (ucLines-1) ) ) 
 				cur_screen++;
 			break;

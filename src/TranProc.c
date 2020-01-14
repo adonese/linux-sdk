@@ -77,6 +77,8 @@ int OnlineTransProcess(void)
 			) 
 	{
 #ifdef _MACHINE_V37
+// same code to be shared among v36 (non printer), and v71 (printer) devices.
+// great use of macros here!
 #else
 		
 		if (ret == 0)
