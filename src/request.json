@@ -1,0 +1,108 @@
+
+https://beta.soluspay.net/play/workingKey	
+	{
+	"tranDateTime": "191012230710",
+	"terminalId": "18000377",
+	"clientId": "ACTS",
+	"systemTraceAuditNumber": 6,
+	"tranAmount": 1,
+	"PAN": "9222081700189607433",
+	"PIN": "f55be01ec0a59ad1",
+	"expDate": "2203",
+	"tranCurrencyCode":"SDG"
+}
+M: e6fbfd2c914a155d
+a1ea5abf79fec811
+b7c90b02dc40dd4d
+5b683040783decb0
+
+    {"ebs_response":{"terminalId":"18000377","systemTraceAuditNumber":4,
+	"clientId":"ACTS","EBSServiceName":"","workingKey":"02612617bf0e2790",
+	"payeeId":"","responseMessage":"Approval","responseStatus":"Successful",
+	"responseCode":0,"tranDateTime":"191011153010"}}
+
+	//Error from Solus, missing parameter
+	//Status 400 Bad Request
+	{
+    "message": "Request fields validation error",
+    "code": 400,
+    "status": "BadRequest",
+    "details": [
+        {
+            "clientId": "this field is required"
+        }
+    ]
+	}
+
+	//Error from EBS, Wrong parameter value
+	//Status 502 Bad Gateway
+	{
+		"message": "EBSError",
+		"code": 600,
+		"status": "EBSError",
+		"details": {
+			"terminalId": "18000377",
+			"systemTraceAuditNumber": 4,
+			"clientId": "ACS",
+			"EBSServiceName": "",
+			"payeeId": "",
+			"responseMessage": "Invalid client Id",
+			"responseStatus": "Failed",
+			"responseCode": 600,
+			"tranDateTime": "191011153010"
+    	}
+	}
+
+	//Error from Solus, Wrong JSON format
+	//Status 400 Bad Request
+	{
+    "error": "unexpected EOF"
+	}
+
+
+	//Respone
+HTTP/1.1 400 Bad Request
+Server: nginx/1.14.0 (Ubuntu)
+Date: Sun, 13 Oct 2019 12:05:14 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 263
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+{"message":"Request fields validation error","code":400,"status":"BadRequest","details":[
+	{"systemTraceAuditNumber":"this field is required"},{"tranDateTime":"this field is required"},
+	{"terminalId":"this field is required"},{"clientId":"this field is required"}]}
+
+
+//Request
+"POST /play/workingKey HTTP/1.1\r\n
+Host: 212.0.129.118:443\r\n
+Content-Type: application/json\r\n
+{\"systemTraceAuditNumber\":\"9\",
+	\"terminalId\":\"18000377\",
+	\"tranDateTime\":\"191012230710\"}"
+
+	{"cl
+	00000070:69 65 6E 74 49 64 22 3A 22 41 43 54 53 22 2C 22 ;   ientId":"ACTS","
+	00000080:74 65 72 6D 69 6E 61 6C 49 64 22 3A 22 31 38 30 ;   terminalId":"180
+	00000090:30 30 33 37 37 22 2C 22 73 79 73 74 65 6D 54 72 ;   00377","systemTr
+	000000a0:61 63 65 41 75 64 69 74 4E 75 6D 62 65 72 22 3A ;   aceAuditNumber":
+	000000b0:31 2C 22 74 72 61 6E 44 61 74 65 54 69 6D 65 22 ;   1,"tranDateTime"
+	000000c0:3A 22 31 39 31 30 31 34 31 31 31 35 35 33 22 7D ;   :"191014111553"}
+
+{"clientId":"ACTS","terminalId":"18000377","systemTraceAuditNumber":1,"tranDateTime":"191014111553"}
+
+POST /play/workingKey HTTP/1.1
+Host: 197.251.5.77
+Content-Type: application/json
+cache-control: no-cache
+Postman-Token: fbf58c85-64b3-4089-b61e-d4556bcd2a8f
+
+{
+	"tranDateTime": "191011153010",
+	"terminalId": "18000377",
+	"clientId": "ACTS",
+	"systemTraceAuditNumber": 4,
+	"PAN": "9222081700189643651",
+	"PIN": "",
+	"expDate": "2203"
+}

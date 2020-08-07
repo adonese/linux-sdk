@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "global.h": "c",
+        "stdio.h": "c",
+        "card.h": "c",
+        "print.h": "c",
+        "global.h\u0000obal.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}
