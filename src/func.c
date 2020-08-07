@@ -136,6 +136,12 @@ int ConverTranNameCh(u8 TranId, char *TransName)
 	case POS_PURCHASE:	
 		strcpy(TransName,"PURCHASE"); 	
 		break;
+	case POS_PURCHASE:	
+		strcpy(TransName,"POS_CARD_TO_CARD"); 	
+		break;
+	case POS_TOP_UP:	
+		strcpy(TransName,"POS_TOP_UP"); 	
+		break;
 	case POS_WORKING_KEY:				
 		strcpy(TransName,"Working Key"); 
 		break;
@@ -153,6 +159,9 @@ int ConverTranNameEn(u8 TranId, char *TransName)
 	{
 		case POS_PURCHASE:					Lstrcpy(TransName,"PURCHASE", "الشراء"); 				break;
 		case POS_PURCHASE_REFUND:					Lstrcpy(TransName," REFUND", "ارجاع المشتريات"); 				break;
+		case POS_TOP_UP:					Lstrcpy(TransName," POS_TOP_UP", " تحويل رصيد "); 				break;
+		case POS_CARD_TO_CARD:					Lstrcpy(TransName," POS_CARD_TO_CARD", "تحويل الى بطاقة"); 				break;
+
 		default:						strcpy(TransName,"");						break;
 	}
 	return 0;
@@ -547,6 +556,13 @@ int SettingMenu(void)
 		case DIGITAL5:
 			LanguageMenu();
 			break;
+			
+		case DIGITAL6:
+			PosCom.stTrans.Trans_id = POS_TOP_UP;
+			return 0;
+		case DIGITAL7:
+			PosCom.stTrans.Trans_id = POS_CARD_TO_CARD;
+			return 0;
 		case ESC:
 			return ESC;
 		default:

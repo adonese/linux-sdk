@@ -6,7 +6,7 @@
 const APP_MSG App_Msg={
 		"ACTS Demo",				      
 		"Solus_App",				 
-		"1.2.0.2",				 
+		"1.2.0.3",				 
 		"SolusPay",				 
 		__DATE__ " " __TIME__,	 
 		"",

@@ -31,7 +31,10 @@ enum{
 	POS_PURCHASE = 1,
 	POS_PURCHASE_REFUND,			 
 	POS_WORKING_KEY,
-	POS_PAPER_OUT					 			 
+	POS_TOP_UP,
+	POS_CARD_TO_CARD,
+
+	POS_PAPER_OUTm,					 			 
 };  
 
 
