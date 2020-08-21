@@ -123,6 +123,8 @@ int ResolveResponse(char *data, int len){
 			{
 			case POS_PURCHASE:
 			case POS_PURCHASE_REFUND:
+			case POS_CARD_TO_CARD:
+			case POS_TOP_UP:
 
 				para = cJSON_GetObjectItem(res_body, "tranAmount");
 				if( (para != NULL) && cJSON_IsNumber(para) ){
@@ -174,6 +176,8 @@ int ResolveResponse(char *data, int len){
 	{
 	case POS_PURCHASE:
 	case POS_PURCHASE_REFUND:
+	case POS_CARD_TO_CARD:
+	case POS_TOP_UP:
 		para = cJSON_GetObjectItem(res_body, "referenceNumber");
 		if( (para != NULL) && cJSON_IsString(para) ){
 			memcpy(PosCom.stTrans.ReferenceNo, para->valuestring, strlen(para->valuestring));
@@ -257,6 +261,7 @@ int CommMakeSendbuf(u8 *sendBuf, u16 *pLen)
 	
 	case POS_PAPER_OUT:
 		strcpy(url, "POST /api/dashboard/issues HTTP/1.1\r\n");
+		
 		break;
 	
 	case POS_PURCHASE:
@@ -294,6 +299,50 @@ int CommMakeSendbuf(u8 *sendBuf, u16 *pLen)
 		amt = atof(tmp);
 		rounded_down = floorf(amt * 100) / 100;
 		cJSON_AddNumberToObject(body, "tranAmount", rounded_down);
+		break;
+		case POS_CARD_TO_CARD:
+		strcpy(url, "POST /api/cardTransfer HTTP/1.1\r\n");
+		cJSON_AddStringToObject(body, "tranCurrencyCode", "SDG");
+		//cJSON_AddStringToObject(body, "clientId", PosCom.stTrans.ClientId);
+		cJSON_AddStringToObject(body, "PAN", PosCom.stTrans.MainAcc);	//PosCom.stTrans.MainAcc); "9222081700176714465"
+		memset(tmp, 0, sizeof(tmp));
+		BcdToAsc_Api(tmp, PosCom.stTrans.ExpDate, 4);
+		cJSON_AddStringToObject(body, "expDate", tmp);
+		memset(tmp, 0, sizeof(tmp));
+		BcdToAsc_Api(tmp, PosCom.sPIN, 16);
+		cJSON_AddStringToObject(body, "PIN", tmp);
+		memset(tmp, 0, sizeof(tmp));
+		BcdToAsc_Api(asc, PosCom.stTrans.TradeAmount, 12);
+		FormatAmt_Str(tmp, asc);
+		amt = atof(tmp);
+		rounded_down = floorf(amt * 100) / 100;
+		cJSON_AddNumberToObject(body, "tranAmount", rounded_down);
+		memset(tmp, 0, sizeof(tmp));
+		BcdToAsc_Api(tmp, PosCom.stTrans.toCard, 19);
+		cJSON_AddStringToObject(body, "toCard", tmp);	//PosCom.stTrans.MainAcc); "9222081700176714465"
+		break;
+		case POS_TOP_UP:
+		strcpy(url, "POST /api/cardTransfer HTTP/1.1\r\n");
+		cJSON_AddStringToObject(body, "tranCurrencyCode", "SDG");
+		
+		cJSON_AddStringToObject(body, "PAN", PosCom.stTrans.MainAcc);	//PosCom.stTrans.MainAcc); "9222081700176714465"
+		memset(tmp, 0, sizeof(tmp));
+		BcdToAsc_Api(tmp, PosCom.stTrans.ExpDate, 4);
+		cJSON_AddStringToObject(body, "expDate", tmp);
+		memset(tmp, 0, sizeof(tmp));
+		BcdToAsc_Api(tmp, PosCom.sPIN, 16);
+		cJSON_AddStringToObject(body, "PIN", tmp);
+		memset(tmp, 0, sizeof(tmp));
+		BcdToAsc_Api(asc, PosCom.stTrans.TradeAmount, 12);
+		FormatAmt_Str(tmp, asc);
+		amt = atof(tmp);
+		rounded_down = floorf(amt * 100) / 100;
+		cJSON_AddNumberToObject(body, "tranAmount", rounded_down);
+		memset(tmp, 0, sizeof(tmp));
+		BcdToAsc_Api(tmp, PosCom.stTrans.phone, 19);
+		cJSON_AddStringToObject(body, "phone", tmp);
+		BcdToAsc_Api(tmp, PosCom.stTrans.code, 10);
+		cJSON_AddStringToObject(body, "code", tmp);	
 		break;
 	
 	default:

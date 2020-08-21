@@ -29,13 +29,24 @@ int OnlineTransProcess(void)
 			ret = PurchaseInput(POS_PURCHASE_REFUND); 
 			if(ret != 0)
 				return ret;     
-			break;         
+			break;
+
 		case POS_WORKING_KEY:       
 			LDispTitle_AE("Working Key", "مفتاح التشفير");
 			break;                       
 		case POS_PAPER_OUT:       
 			LDispTitle_AE("Paper Out", "نفذ الورق");
-			break;                       
+			break;  
+			case POS_CARD_TO_CARD:					 
+			ret = Card_To_CardInput(POS_CARD_TO_CARD); 
+			if(ret != 0)
+				return ret;     
+			break;
+			case POS_TOP_UP:					 
+			ret = Mobile_Top_UpInput(POS_TOP_UP); 
+			if(ret != 0)
+				return ret;     
+			break;                     
 		default:
 			return ESC;
 	}
@@ -134,7 +145,82 @@ int PurchaseInput(int type)
 	}
 	return 0;
 }
+/////////////ali 2020 changes add card to card and mobile topup
+int Card_To_CardInput(int type)
+{
+	
+		LDispTitle_AE("Card To Card transaction", "تحويل من بطاقة الى بطاقة");
+
+	LScrDisp_AE(LINE2, 0, "Enter Amount:", "ادخل المبلغ:", LDISP);
+	if(GetAmount(PosCom.stTrans.TradeAmount) != 0)
+		return 1;
+
+	PosCom.HaveInputAmt = 1;
+	ScrClrLine_Api(LINE2, LINE7);
+	LScrDisp_AE(LINE2, 0, "Please Swipe Your Card:", "الرجاء تمرير البطاقة:", LDISP);
+	ret = GetCard(MASK_INCARDNO_MAGCARD|MASK_INCARDNO_ICC|MASK_INCARDNO_PICC, CARD_EMVFULLNOCASH|CARD_QPASSONLINE);
+	CommDebugInfo("GetCard", (u8 *)&ret, sizeof(ret), 1);
+	if(ret != 0)
+		return (ret);
  
+	if(PosCom.stTrans.EntryMode[0] == PAN_KEYIN || PosCom.stTrans.EntryMode[0] == PAN_MAGCARD ) 	
+	{
+		ret = EnterPIN(0);
+		if(ret)
+			return ret;
+	}
+	///toCard
+	LScrDisp_AE(LINE2, 0, "Enter toCard:", " ادخل رقم بطاقة المستلم", LDISP);
+	if(GetAmount(PosCom.stTrans.toCard) != 0)
+		return 1;
+	return 0;
+}
+////mobile top up
+int Mobile_Top_UpInput(int type)
+{
+	
+		LDispTitle_AE("Card To Card transaction", "تحويل من بطاقة الى بطاقة");
+
+	LScrDisp_AE(LINE2, 0, "Enter Amount:", "ادخل المبلغ:", LDISP);
+	if(GetAmount(PosCom.stTrans.TradeAmount) != 0)
+		return 1;
+
+	PosCom.HaveInputAmt = 1;
+	ScrClrLine_Api(LINE2, LINE7);
+	LScrDisp_AE(LINE2, 0, "Please Swipe Your Card:", "الرجاء تمرير البطاقة:", LDISP);
+	ret = GetCard(MASK_INCARDNO_MAGCARD|MASK_INCARDNO_ICC|MASK_INCARDNO_PICC, CARD_EMVFULLNOCASH|CARD_QPASSONLINE);
+	CommDebugInfo("GetCard", (u8 *)&ret, sizeof(ret), 1);
+	if(ret != 0)
+		return (ret);
+ 
+	if(PosCom.stTrans.EntryMode[0] == PAN_KEYIN || PosCom.stTrans.EntryMode[0] == PAN_MAGCARD ) 	
+	{
+		ret = EnterPIN(0);
+		if(ret)
+			return ret;
+	}
+	///chose operator 
+	ScrClrLine_Api(LINE2, LINE7);
+	LScrDisp_AE(LINE2, 0, "Chose operator :", "اختر الشبكة", LDISP);
+	LScrDisp_AE(LINE3, 0, "1=zain 2=mtn 3=sudani :", "1=زين 2=ام تي ان  3=سوداني", LDISP);
+	if(GetAmount(PosCom.stTrans.code) != 0)
+		return 1;
+	if(PosCom.stTrans.code=1)PosCom.stTrans.code=0010010001;
+	if(PosCom.stTrans.code=2)PosCom.stTrans.code=0010010003;
+	if(PosCom.stTrans.code=3)PosCom.stTrans.code=0010010005;
+	ScrClrLine_Api(LINE2, LINE3);
+	///phone
+	ScrClrLine_Api(LINE2, LINE3);
+	LScrDisp_AE(LINE2, 0, "write phone number :", " رقم الهاتف", LDISP);
+	if(GetAmount(PosCom.stTrans.phone)!= 0)
+		return 1;
+	return 0;
+}
+
+
+
+
+///////////////////// 
 void DispResult(int rej)
 {
 	char DispBuf[32], sTemp[32];
