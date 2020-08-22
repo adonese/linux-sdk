@@ -340,8 +340,13 @@ int CommMakeSendbuf(u8 *sendBuf, u16 *pLen)
 		cJSON_AddNumberToObject(body, "tranAmount", rounded_down);
 		memset(tmp, 0, sizeof(tmp));
 		BcdToAsc_Api(tmp, PosCom.stTrans.phone, 19);
-		cJSON_AddStringToObject(body, "phone", tmp);
+		memset(buf, 0, sizeof(buf));
+		////get invoice number
+			sprintf(buf, "2/%s/%s", PosCom.stTrans.lTraceNo, PosCom.stTrans.phone);
+			cJSON_AddStringToObject(root, "personalPaymentInfo", buf);
+		///cJSON_AddStringToObject(body, "phone", tmp);
 		BcdToAsc_Api(tmp, PosCom.stTrans.code, 10);
+
 		cJSON_AddStringToObject(body, "code", tmp);	
 		break;
 	
