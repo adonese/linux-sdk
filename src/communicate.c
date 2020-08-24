@@ -346,6 +346,7 @@ int CommMakeSendbuf(u8 *sendBuf, u16 *pLen)
 			cJSON_AddStringToObject(root, "personalPaymentInfo", buf);
 		///cJSON_AddStringToObject(body, "phone", tmp);
 		BcdToAsc_Api(tmp, PosCom.stTrans.code, 10);
+		cJSON_AddStringToObject(root, "payeeId", PosCom.stTrans.code); //cJSON_AddStringToObject(root, "payeeId", buf); // <Morsal Terminal API v1.1.pdf> 8.6
 
 		cJSON_AddStringToObject(body, "code", tmp);	
 		break;
